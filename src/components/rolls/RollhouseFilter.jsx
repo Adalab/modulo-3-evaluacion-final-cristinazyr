@@ -1,10 +1,12 @@
+import PropTypes from "prop-types"
+
 function RollHouseFilter({houseFilter, handleChangeHouseFilter}) {
   return (
     
     <div className='form_house'>
-        <label >Selecciona la casa</label>
+        <label className="search__title">Selecciona la casa : </label>
         <div>
-        <select onChange={handleChangeHouseFilter} value={houseFilter} name="houseSelect" id="houseSelect">
+        <select className="input" onChange={handleChangeHouseFilter} value={houseFilter} name="houseSelect" id="houseSelect">
           <option value="gryffindor">Gryffindor</option>
           <option value="slytherin">Slytherin</option>
           <option value="ravenclaw">Ravenclaw</option>
@@ -16,4 +18,9 @@ function RollHouseFilter({houseFilter, handleChangeHouseFilter}) {
   );
 }
 
+RollHouseFilter.propTypes= {
+  houseFilter: PropTypes.string.isRequired,
+  handleChangeHouseFilter:PropTypes.func.isRequired,
+
+}
 export default RollHouseFilter;

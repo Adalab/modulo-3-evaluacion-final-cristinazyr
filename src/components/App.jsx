@@ -5,8 +5,9 @@ import { useState, useEffect } from 'react';
 import RollList from './rolls/RollList';
 import RollNameFilter from './rolls/RollNameFilter';
 import RollHouseFilter from './rolls/RollhouseFilter';
+import logo from "../images/logo.png"
 import { Routes, Route } from 'react-router-dom';
-
+import RollDetail from './rolls/RollDetail';
 
 
 function App() {
@@ -18,13 +19,11 @@ function App() {
 
 
 
-
   useEffect(()=> {fetch(`https://hp-api.onrender.com/api/characters/house/${houseFilter}`)
   .then((response) => response.json())
   .then((responseData) => {
     setRolls(responseData)
   });},[houseFilter])
-
 
 
 
@@ -43,38 +42,32 @@ function App() {
   }
 
 
-
   const filteredRolls=rolls
   .filter(roll=>roll.name.toLowerCase().includes(filterName.toLowerCase()))
   .filter(character => character.house.toLowerCase() === houseFilter.toLowerCase())
 
-
+  
 
   return (
    <div className="page">
-    <header>
-      <h1>Herry Potter</h1>
+    <header className='title__box'>
+      <img className='logo' src={logo} alt="logo Harry Potter" />
     </header>
     <main>
-      <Routes>
-        <Route path='/' 
-        element={        
-         <>
-           <form onSubmit={handleFormSubmit}>
+       <Routes>
+        <Route path='/' element={<>
+           <form className="search__box" onSubmit={handleFormSubmit}>
+            <div className='inside__search__box'>
             <RollNameFilter filterName={filterName} handleFilterName={handleFilterName}></RollNameFilter>
             <RollHouseFilter houseFilter={houseFilter} handleChangeHouseFilter={handleChangeHouseFilter}></RollHouseFilter>
+            </div>
            </form>
            <section className='rolls'>
             {filteredRolls.length===0 ? (<p>No hay ningún personaje que coincida con la palabra {filterName}</p>) : <RollList rolls={filteredRolls}></RollList> }
           </section>
-        </>
-        }/>
-        <Route path='/detail'/>
-      </Routes>
-        
-
-      
-        
+        </>}></Route>
+        <Route path='/detail/:id' element={<RollDetail rolls={rolls}/>}></Route>
+       </Routes> 
     </main>
     <footer>
         <small>&copy;2024 Yanru</small>
